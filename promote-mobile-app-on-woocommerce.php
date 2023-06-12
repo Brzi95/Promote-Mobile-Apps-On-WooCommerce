@@ -90,6 +90,9 @@ function pmaw_output_app_banner($post_ID) {
   $android_app_title = get_option('pmaw_android_title');
   $android_app_author = get_option('pmaw_android_author');
   $android_app_icon = get_option('pmaw_android_icon');
+  $android_app_app_store = get_option('pmaw_android_app_store');
+  $android_app_price = get_option('pmaw_android_price');
+  $android_app_button = get_option('pmaw_android_button');
 
   // if app IDs are not set, exit
   if ((is_null($android_app_id) || $android_app_id == "") && (is_null($ios_app_id) || $ios_app_id == "")) {
@@ -109,7 +112,10 @@ function pmaw_output_app_banner($post_ID) {
   $android_app_info = array(
       'title' => $android_app_title,
       'author' => $android_app_author,
-      'icon' => $android_app_icon
+      'icon' => $android_app_icon,
+      'app_store' => $android_app_app_store,
+      'price' => $android_app_price,
+      'button' => $android_app_button
   );
 
   wp_localize_script('android_and_old_ios', 'androidInfo', $android_app_info);
@@ -142,6 +148,9 @@ function promote_mobile_app_on_woocommerce_options() {
     $android_title_field_name = 'pmaw_android_title';
 	  $android_author_field_name = 'pmaw_android_author';
     $android_icon_field_name = 'pmaw_android_icon';
+    $android_app_store_field_name = 'pmaw_android_app_store';
+    $android_price_field_name = 'pmaw_android_price';
+    $android_button_field_name = 'pmaw_android_button';
     
     // Read in existing option value from database
 	  $ios_appid_val = get_option( $ios_appid_field_name );
@@ -149,6 +158,9 @@ function promote_mobile_app_on_woocommerce_options() {
     $android_title_val = get_option( $android_title_field_name );
     $android_author_val = get_option( $android_author_field_name );
 	  $android_icon_val = get_option( $android_icon_field_name );
+    $android_app_store_val = get_option( $android_app_store_field_name );
+    $android_price_val = get_option( $android_price_field_name );
+    $android_button_val = get_option( $android_button_field_name );
 
     // See if the user has posted us some information
     // If they did, this hidden field will be set to 'Y'
@@ -166,6 +178,9 @@ function promote_mobile_app_on_woocommerce_options() {
       $android_title_val = $_POST[ $android_title_field_name ];
       $android_author_val = $_POST[ $android_author_field_name ];
       $android_icon_val = $_POST[ $android_icon_field_name ];
+      $android_app_store_val = $_POST[ $android_app_store_field_name ];
+      $android_price_val = $_POST[ $android_price_field_name ];
+      $android_button_val = $_POST[ $android_button_field_name ];
 
       // Save the posted value in the database
       update_option( $ios_appid_field_name, $ios_appid_val );
@@ -173,6 +188,9 @@ function promote_mobile_app_on_woocommerce_options() {
       update_option( $android_title_field_name, $android_title_val );
       update_option( $android_author_field_name, $android_author_val );
       update_option( $android_icon_field_name, $android_icon_val );
+      update_option( $android_app_store_field_name, $android_app_store_val );
+      update_option( $android_price_field_name, $android_price_val );
+      update_option( $android_button_field_name, $android_button_val );
     }
   }
 
@@ -222,8 +240,23 @@ function promote_mobile_app_on_woocommerce_options() {
   </tr>
 
   <tr>
-    <td><?php _e('Android Icon (URL) W:81px H:57px','promote-mobile-app-on-woocommerce-banner'); ?></td>
+    <td><?php _e('Android Icon (URL):','promote-mobile-app-on-woocommerce-banner'); ?></td>
     <td><input type="text" name="<?php echo $android_icon_field_name; ?>" value="<?php echo $android_icon_val; ?>" /></td>
+  </tr>
+
+  <tr>
+    <td><?php _e('App Store:','promote-mobile-app-on-woocommerce-banner'); ?></td>
+    <td><input type="text" placeholder="In Google Play" name="<?php echo $android_app_store_field_name; ?>" value="<?php echo $android_app_store_val; ?>" /></td>
+  </tr>
+
+  <tr>
+    <td><?php _e('Price:','promote-mobile-app-on-woocommerce-banner'); ?></td>
+    <td><input type="text" placeholder="FREE" name="<?php echo $android_price_field_name; ?>" value="<?php echo $android_price_val; ?>" /></td>
+  </tr>
+
+  <tr>
+    <td><?php _e('Button:','promote-mobile-app-on-woocommerce-banner'); ?></td>
+    <td><input type="text" placeholder="View" name="<?php echo $android_button_field_name; ?>" value="<?php echo $android_button_val; ?>" /></td>
   </tr>
 
 </table>
@@ -253,8 +286,9 @@ function pmaw_banner_uninstall() {
 	delete_option('pmaw_android_title');
 	delete_option('pmaw_android_author');
   delete_option('pmaw_android_icon');
+  delete_option('pmaw_android_app_store');
+  delete_option('pmaw_android_price');
+  delete_option('pmaw_android_button');
 }
-
-
 
 ?>
